@@ -3,8 +3,8 @@ const { errorMonitor } = require('events');
 const https = require('https');
 const api = require('./app.json');
 
-const printMessage = (city, temp) => {
-    const message = `The Current Temperature in ${city} is ${temp}F`;
+const printMessage = (city, temp, clouds, humid) => {
+    const message = `The Current Temperature in ${city} is ${temp}F with ${clouds} and ${humid} degrees humid`;
     console.log(message);
 }
 
@@ -20,7 +20,7 @@ const get = (city) => {
                 try{
                     res.on('end', () => {
                         const profile = JSON.parse(body);
-                        printMessage(city, profile.main.temp)
+                        printMessage(profile.name, profile.main.temp, profile.weather[0].description, profile.main.humidity)
                     })
                 }catch(error){
                     console.error(error);
